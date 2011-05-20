@@ -1,0 +1,34 @@
+= ASR-as-a-Service 
+
+This is a simple Tropo (http://tropo.com) application that provides speech recognition also know as Automatic Speech Recognition (ASR) as a service using SIP!  This service is perfect for adding speech recognition to your existing Asterisk, FreeSwitch, YATS, or enterprise app from the stone ages.  
+
+Note: If Twilio supported SIP, you could also use Tropo to add speech recognition to your existing Twilio application - OR - then again you could just use the Tropo API and platform to run your application so you also get Instant Messaging capabilities on GTalk, Yahoo, MSN, AIM, and Jabber as well as Twitter for FREE (in addition to Voice and international SMS)!
+
+= Here's how it works
+
+You can transfer a phone call via SIP from a platform that doesn't support ASR to Tropo along with the following SIP headers: prompt, choices, and returnaddress (SIP address). Tropo automatically answers the call and prompts the user the the text-to-speech (TTS) prompt passed.  It automatically loads the ASR grammar with the choices passed.  Upon successfully processing the speech recognition, Tropo transfers the call and the recognized result back to the return SIP adrress along with an x-voxeo-result SIP header containing your keyword spoken by the user.
+
+= Here's how we tested it:
+
+- I used Phono (phono.html), our browser-based webphone (http://phono.com), to place a SIP call into Tropo passing it the 3 parameters identified above like this:
+
+phono.phone.dial("sip:9996106030@sip.tropo.com", {
+  	headers: [
+	{
+		name:"prompt",
+		value: "what is your favorite color"
+	},
+	{
+		name:"choices",
+		value: "blue,green,red,yellow,white,black,brown,khaki,orange,purple,pink,rainbow"
+	},
+	{
+		name:"returnaddress",
+		value: "sip:9996106032@sip.tropo.com"
+	}
+	],...
+
+- I wrote a little Tropo Scripting API app that accepts the inbound SIP parameters, prompts the caller, and processes the speech recognition.
+
+- I wrote a second Tropo Scripting API app to test the passing of x-voxeo-result using the returnaddress parameter to speak the results.  This application would be omitted for a real app since the returnaddress would most likely be the originating SIP address of your switch to return to your original callflow.
+

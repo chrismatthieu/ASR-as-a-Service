@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script src="http://s.phono.com/releases/0.2/jquery.phono.js"></script>
+  </head>
+  <body>
+
+    <input id="call" type="button" disabled="true" value="Loading..." />
+    <div id="pickupbutton" style="display:none"><input id="pickup" type="button" value="pickup" /></div>
+    <div id="hangupbutton" style="display:none"><input id="hangup" type="button" value="hangup" /></div>
+    <span id="status"></span>
+
+    <script>
+	var returnaddress;
+    $(document).ready(function(){
+      var phono = $.phono({
+        apiKey: "your_phono_apikey_goes_here",
+        onReady: function() {
+          $("#call").attr("disabled", false).val("Call");
+			returnaddress = this.sessionId;
+        },
+		  phone: {
+		    onIncomingCall: function(event) {
+		      var call = event.call;
+				$("#pickupbutton").show();
+		      // alert("Incoming call");
+				$("#pickup").click(function() {
+					call.answer();
+					$("#pickupbutton").hide();
+					$("#hangupbutton").show();
+				});
+				$("#hangup").click(function() {
+					call.hangup();
+					$("#pickupbutton").hide();
+					$("#hangupbutton").hide();
+				})
+		    }
+		  }
+      });
+
+      $("#call").click(function() {
+        $("#call").attr("disabled", true).val("Busy");
+        phono.phone.dial("sip:9996106030@sip.tropo.com", {
+          	headers: [
+			{
+				name:"returnaddress",
+				value: "sip:9996106032@sip.tropo.com" // you could use returnaddress var to send the results back to Phono's SIP address
+			},
+			{
+				name:"prompt",
+				value: "What is your favorite color?"
+			},
+			{
+				name:"choices",
+				value: "blue,green,red,yellow"
+			}
+			],
+		  onRing: function() {
+            $("#status").html("Ringing");
+          },
+          onAnswer: function() {
+            $("#status").html("Answered");
+          },
+          onHangup: function() {
+            $("#call").attr("disabled", false).val("Call");
+            $("#status").html("Hangup");
+          }
+        });
+      });
+    })
+    </script>
+
+  </body>
+</html>

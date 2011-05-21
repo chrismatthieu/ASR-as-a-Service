@@ -1,0 +1,1 @@
+say "You said " + $currentCall.getHeader("x-voxeo-result")

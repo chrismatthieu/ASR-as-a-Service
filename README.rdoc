@@ -1,6 +1,6 @@
 = ASR-as-a-Service 
 
-This is a simple Tropo (http://tropo.com) application that provides speech recognition also know as Automatic Speech Recognition (ASR) as a service using SIP!  This service is perfect for adding speech recognition to your existing Asterisk, FreeSwitch, YATS, or enterprise app from the stone ages.  
+This is a simple Tropo (http://tropo.com) application that provides speech recognition also know as Automatic Speech Recognition (ASR) as a service using SIP!  This service is perfect for adding speech recognition to your existing Asterisk, FreeSwitch, YATE, or enterprise app from the stone ages.  
 
 Note: If Twilio supported SIP, you could also use Tropo to add speech recognition to your existing Twilio application - OR - then again you could just use the Tropo API and platform to run your application so you also get Instant Messaging capabilities on GTalk, Yahoo, MSN, AIM, and Jabber as well as Twitter for FREE (in addition to Voice and international SMS)!
 
